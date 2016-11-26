@@ -1,4 +1,4 @@
-package hiddenclause;
+package CostEstimation;
 
 import org.jgap.InvalidConfigurationException;
 import org.jgap.gp.CommandGene;
@@ -16,7 +16,7 @@ import org.jgap.gp.terminal.Variable;
  * @author Robbie
  *
  */
-public class SimpleMathTest extends GPProblem {
+public class CostEstimation extends GPProblem {
     @SuppressWarnings("boxing")
     private static Integer[] INPUT_1 = { 26, 8, 20, 33, 37 };
 
@@ -28,7 +28,7 @@ public class SimpleMathTest extends GPProblem {
     private Variable _xVariable;
     private Variable _yVariable;
 
-    public SimpleMathTest() throws InvalidConfigurationException {
+    public CostEstimation() throws InvalidConfigurationException {
         super(new GPConfiguration());
 
         GPConfiguration config = getGPConfiguration();
@@ -40,7 +40,7 @@ public class SimpleMathTest extends GPProblem {
         config.setMaxInitDepth(4);
         config.setPopulationSize(1000);
         config.setMaxCrossoverDepth(8);
-        config.setFitnessFunction(new SimpleMathTestFitnessFunction(INPUT_1, INPUT_2, OUTPUT, _xVariable, _yVariable));
+        config.setFitnessFunction(new FitnessFunction(INPUT_1, INPUT_2, OUTPUT, _xVariable, _yVariable));
         config.setStrictProgramCreation(true);
     }
 
@@ -73,7 +73,7 @@ public class SimpleMathTest extends GPProblem {
     }
 
     public static void main(String[] args) throws Exception {
-        GPProblem problem = new SimpleMathTest();
+        GPProblem problem = new CostEstimation();
 
         GPGenotype gp = problem.create();
         gp.setVerboseOutput(true);
