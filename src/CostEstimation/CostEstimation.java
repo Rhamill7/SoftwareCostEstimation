@@ -74,6 +74,7 @@ public class CostEstimation extends GPProblem {
 
     public static void main(String[] args) throws Exception {
         GPProblem problem = new CostEstimation();
+        Reader r = new Reader();
 
         GPGenotype gp = problem.create();
         gp.setVerboseOutput(true);
