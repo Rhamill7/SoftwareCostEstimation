@@ -6,6 +6,7 @@ import org.jgap.gp.GPProblem;
 import org.jgap.gp.function.Add;
 import org.jgap.gp.function.Multiply;
 import org.jgap.gp.function.Pow;
+import org.jgap.gp.function.Subtract;
 import org.jgap.gp.impl.DeltaGPFitnessEvaluator;
 import org.jgap.gp.impl.GPConfiguration;
 import org.jgap.gp.impl.GPGenotype;
@@ -62,6 +63,7 @@ public class CostEstimation extends GPProblem {
                 _yVariable,
                 new Add(config, CommandGene.IntegerClass),
                 new Multiply(config, CommandGene.IntegerClass),
+                new Subtract(config, CommandGene.IntegerClass),
                 new Terminal(config, CommandGene.IntegerClass, 0.0, 10.0, true)
             }
         };
@@ -75,6 +77,8 @@ public class CostEstimation extends GPProblem {
     public static void main(String[] args) throws Exception {
         GPProblem problem = new CostEstimation();
         Reader r = new Reader();
+        r.read();
+        r.checkLists();
 
         GPGenotype gp = problem.create();
         gp.setVerboseOutput(true);

@@ -10,17 +10,14 @@ import java.util.Scanner;
 
 public class Reader {
 
-	ArrayList<String> attributes = new ArrayList<String>();
-	ArrayList<Chromosome> customers = new ArrayList<Chromosome>();
-	ArrayList<Double> scores = new ArrayList<Double>();
-	List<List<Integer>> lists = new ArrayList<List<Integer>>();
-	private double budget = 0.0;
-	private int totalProfit = 0;
+	List<List<Object>> lists = new ArrayList<List<Object>>();
 
 	public Reader() {
+
+	}
+
+	public void read() {
 		try {
-			System.out.println("Made it to here");
-			// change file path if required
 			File infile = new File("miyazaki94.arff");
 			if (!infile.canRead()) {
 				infile.setReadable(true);
@@ -28,33 +25,47 @@ public class Reader {
 			Scanner scanner = new Scanner(infile);
 			while (scanner.hasNext()) {
 				String line = scanner.nextLine();
-				System.out.println(line);
 				if (line.contains("attribute")) {
-					List<Integer> list = new ArrayList<>();
+					List<Object> list = new ArrayList<Object>();
+
 					lists.add(list);
 				}
-
-				else if (line.contains("data")) {
-					while (scanner.hasNext()) {
-						line = scanner.nextLine();
-						int j = 0;
+			}
+			scanner.close();
+			Scanner scanner2 = new Scanner(infile);
+			while (scanner2.hasNext()) {
+				String line = scanner2.nextLine();
+				if (line.contains("data")) {
+					while (scanner2.hasNext()) {
+						line = scanner2.nextLine();
 						Scanner miniScan2 = new Scanner(line);
+						int j = 0;
+						miniScan2.useDelimiter(",");
 						while (miniScan2.hasNext()) {
-							int variable = miniScan2.nextInt();
+							// miniScan2.next();
+							Object variable = miniScan2.next();
 							lists.get(j).add(variable);
 							j++;
 						}
+						miniScan2.close();
 					}
 
-				} else {
-					scanner.nextLine();
 				}
 			}
+			scanner2.close();
 
-		} catch (IOException e) {
+		} catch (
+
+		IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
+	public void checkLists() {
+		System.out.println("Got to method.");
+		System.out.println(lists.size());
+		for (int k = 0; k < lists.size(); k++) {
+			System.out.println(lists.get(k));
+		}
+	}
 }
