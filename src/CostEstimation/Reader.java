@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Reader {
 
-	List<List<Object>> lists = new ArrayList<List<Object>>();
+	List<List<Double>> lists = new ArrayList<List<Double>>();
 
 	public Reader() {
 
@@ -26,8 +26,7 @@ public class Reader {
 			while (scanner.hasNext()) {
 				String line = scanner.nextLine();
 				if (line.contains("attribute")) {
-					List<Object> list = new ArrayList<Object>();
-
+					List<Double> list = new ArrayList<Double>();
 					lists.add(list);
 				}
 			}
@@ -43,8 +42,11 @@ public class Reader {
 						miniScan2.useDelimiter(",");
 						while (miniScan2.hasNext()) {
 							// miniScan2.next();
-							Object variable = miniScan2.next();
-							lists.get(j).add(variable);
+							if (j==0){miniScan2.next();}
+							String variable = miniScan2.next();
+							//System.out.println(variable.toString());
+							Double var = Double.valueOf(variable);
+							lists.get(j).add(var);
 							j++;
 						}
 						miniScan2.close();
@@ -69,8 +71,15 @@ public class Reader {
 		}
 	}
 	
-	public List<List<Object>> getLists() {
+	public List<Double> getAttributeList(int attribute) {
+		return lists.get(attribute);
+		}
+	
+	public List<List<Double>> getLists(int attribute) {
 		return lists;
+		}
+	public int getListSize() {
+		return lists.size();
 		}
 	
 }

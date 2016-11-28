@@ -1,5 +1,6 @@
 package CostEstimation;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,77 +22,82 @@ import org.jgap.gp.terminal.Variable;
  *
  */
 public class CostEstimation extends GPProblem {
-    @SuppressWarnings("boxing")
-    private static Integer[] INPUT_1 = { 26, 8, 20, 33, 37 };
+	List<List<Double>> inputs = new ArrayList<List<Double>>();
+	@SuppressWarnings("boxing")
+	private static Integer[] INPUT_1 = { 26, 8, 20, 33, 37 };
 
-    @SuppressWarnings("boxing")
-    private static Integer[] INPUT_2 = { 35, 24, 1, 11, 16 };
+	@SuppressWarnings("boxing")
+	private static Integer[] INPUT_2 = { 35, 24, 1, 11, 16 };
 
-    private static int[] OUTPUT = { 829, 141, 467, 1215, 1517 };
-   // private static int[] OUTPUT  = r
+	private static int[] OUTPUT = { 829, 141, 467, 1215, 1517 };
+	// private static int[] OUTPUT = r
 
-    private Variable _xVariable;
-    private Variable _yVariable;
+	// private Variable _xVariable;
+	// private Variable _yVariable;
 
-    public CostEstimation() throws InvalidConfigurationException {
-        super(new GPConfiguration());
+	public CostEstimation() throws InvalidConfigurationException {
+		super(new GPConfiguration());
 
-        Reader r = new Reader();
-        r.read();
-        //r.checkLists();
-        r.getLists();
-        
-        GPConfiguration config = getGPConfiguration();
+		Reader r = new Reader();
+		r.read();
+		// r.checkLists();
+		int attributes = r.getListSize();
+		for (int i = 0; i < attributes; i++) {
+			List<Double> INPUT = r.getLists(i);
+		}
 
-        _xVariable = Variable.create(config, "X", CommandGene.IntegerClass);
-        _yVariable = Variable.create(config, "Y", CommandGene.IntegerClass);
+		GPConfiguration config = getGPConfiguration();
+		List<Variable> vars = new ArrayList<Variable>();
+		for (int j = 0; j < attributes; j++) {
+			Variable var = Variable.create(config, "Variable" + j, CommandGene.IntegerClass);
+			vars.add(var);
+		}
+		// _xVariable = Variable.create(config, "X", CommandGene.IntegerClass);
+		// _yVariable = Variable.create(config, "Y", CommandGene.IntegerClass);
 
-        config.setGPFitnessEvaluator(new DeltaGPFitnessEvaluator());
-        config.setMaxInitDepth(4);
-        config.setPopulationSize(1000);
-        config.setMaxCrossoverDepth(8);
-        config.setFitnessFunction(new FitnessFunction(INPUT_1, INPUT_2, OUTPUT, _xVariable, _yVariable));
-        config.setStrictProgramCreation(true);
-    }
+		config.setGPFitnessEvaluator(new DeltaGPFitnessEvaluator());
+		config.setMaxInitDepth(4);
+		config.setPopulationSize(1000);
+		config.setMaxCrossoverDepth(8);
+		config.setFitnessFunction(new FitnessFunction(inputs, vars));
+		config.setStrictProgramCreation(true);
+	}
 
-    @Override
-    public GPGenotype create() throws InvalidConfigurationException {
-        GPConfiguration config = getGPConfiguration();
+	@Override
+	public GPGenotype create() throws InvalidConfigurationException {
+		GPConfiguration config = getGPConfiguration();
 
-        // The return type of the GP program.
-        Class[] types = { CommandGene.IntegerClass };
+		// The return type of the GP program.
+		Class[] types = { CommandGene.IntegerClass };
 
-        // Arguments of result-producing chromosome: none
-        Class[][] argTypes = { {} };
+		// Arguments of result-producing chromosome: none
+		Class[][] argTypes = { {} };
 
-        // Next, we define the set of available GP commands and terminals to
-        // use.
-        CommandGene[][] nodeSets = {
-            {
-                _xVariable,
-                _yVariable,
-                new Add(config, CommandGene.IntegerClass),
-                new Multiply(config, CommandGene.IntegerClass),
-                new Subtract(config, CommandGene.IntegerClass),
-                new Terminal(config, CommandGene.IntegerClass, 0.0, 10.0, true)
-            }
-        };
+		
+		// Next, we define the set of available GP commands and terminals to
+		// use.
+		CommandGene[][] nodeSets = { 
+				{
+					_xVariable, _yVariable,
+				new Add(config, CommandGene.IntegerClass),
+				new Multiply(config, CommandGene.IntegerClass), 
+				new Subtract(config, CommandGene.IntegerClass),
+				new Terminal(config, CommandGene.IntegerClass, 0.0, 10.0, true) } };
 
-        GPGenotype result = GPGenotype.randomInitialGenotype(config, types, argTypes,
-                nodeSets, 20, true);
+		GPGenotype result = GPGenotype.randomInitialGenotype(config, types, argTypes, nodeSets, 20, true);
 
-        return result;
-    }
+		return result;
+	}
 
-    public static void main(String[] args) throws Exception {
-        GPProblem problem = new CostEstimation();
-       
-        GPGenotype gp = problem.create();
-        gp.setVerboseOutput(true);
-        gp.evolve(30);
+	public static void main(String[] args) throws Exception {
+		GPProblem problem = new CostEstimation();
 
-      //  System.out.println("Formulaiscover: x^2 + 2y + 3x + 5");
-        gp.outputSolution(gp.getAllTimeBest());
-    }
+		GPGenotype gp = problem.create();
+		gp.setVerboseOutput(true);
+		gp.evolve(30);
+
+		// System.out.println("Formulaiscover: x^2 + 2y + 3x + 5");
+		gp.outputSolution(gp.getAllTimeBest());
+	}
 
 }
