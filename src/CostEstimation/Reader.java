@@ -68,4 +68,9 @@ public class Reader {
 			System.out.println(lists.get(k));
 		}
 	}
+	
+	public List<List<Object>> getLists() {
+		return lists;
+		}
+	
 }

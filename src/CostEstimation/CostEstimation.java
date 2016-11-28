@@ -1,5 +1,8 @@
 package CostEstimation;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.jgap.InvalidConfigurationException;
 import org.jgap.gp.CommandGene;
 import org.jgap.gp.GPProblem;
@@ -25,6 +28,7 @@ public class CostEstimation extends GPProblem {
     private static Integer[] INPUT_2 = { 35, 24, 1, 11, 16 };
 
     private static int[] OUTPUT = { 829, 141, 467, 1215, 1517 };
+   // private static int[] OUTPUT  = r
 
     private Variable _xVariable;
     private Variable _yVariable;
@@ -32,6 +36,11 @@ public class CostEstimation extends GPProblem {
     public CostEstimation() throws InvalidConfigurationException {
         super(new GPConfiguration());
 
+        Reader r = new Reader();
+        r.read();
+        //r.checkLists();
+        r.getLists();
+        
         GPConfiguration config = getGPConfiguration();
 
         _xVariable = Variable.create(config, "X", CommandGene.IntegerClass);
@@ -76,15 +85,12 @@ public class CostEstimation extends GPProblem {
 
     public static void main(String[] args) throws Exception {
         GPProblem problem = new CostEstimation();
-        Reader r = new Reader();
-        r.read();
-        r.checkLists();
-
+       
         GPGenotype gp = problem.create();
         gp.setVerboseOutput(true);
         gp.evolve(30);
 
-        System.out.println("Formulaiscover: x^2 + 2y + 3x + 5");
+      //  System.out.println("Formulaiscover: x^2 + 2y + 3x + 5");
         gp.outputSolution(gp.getAllTimeBest());
     }
 
