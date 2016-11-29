@@ -22,7 +22,11 @@ import org.jgap.gp.terminal.Variable;
  *
  */
 public class CostEstimation extends GPProblem {
+	
 	List<List<Double>> inputs = new ArrayList<List<Double>>();
+	List<Double> outputs = new ArrayList<Double>();
+	List<Variable> vars = new ArrayList<Variable>();
+	
 	@SuppressWarnings("boxing")
 	private static Integer[] INPUT_1 = { 26, 8, 20, 33, 37 };
 
@@ -41,13 +45,15 @@ public class CostEstimation extends GPProblem {
 		Reader r = new Reader();
 		r.read();
 		// r.checkLists();
-		int attributes = r.getListSize();
-		for (int i = 0; i < attributes; i++) {
-			List<Double> INPUT = r.getLists(i);
+		int attributes = r.getListSize()-2;
+		for (int i = 0; i < attributes-1; i++) {
+			List<Double> INPUT = r.getAttributeList(i);
+			inputs.add(INPUT);
 		}
+		
 
 		GPConfiguration config = getGPConfiguration();
-		List<Variable> vars = new ArrayList<Variable>();
+		
 		for (int j = 0; j < attributes; j++) {
 			Variable var = Variable.create(config, "Variable" + j, CommandGene.IntegerClass);
 			vars.add(var);
@@ -59,7 +65,7 @@ public class CostEstimation extends GPProblem {
 		config.setMaxInitDepth(4);
 		config.setPopulationSize(1000);
 		config.setMaxCrossoverDepth(8);
-		config.setFitnessFunction(new FitnessFunction(inputs, vars));
+		config.setFitnessFunction(new FitnessFunction(inputs,outputs, vars));
 		config.setStrictProgramCreation(true);
 	}
 
@@ -76,13 +82,22 @@ public class CostEstimation extends GPProblem {
 		
 		// Next, we define the set of available GP commands and terminals to
 		// use.
-		CommandGene[][] nodeSets = { 
-				{
-					_xVariable, _yVariable,
-				new Add(config, CommandGene.IntegerClass),
-				new Multiply(config, CommandGene.IntegerClass), 
-				new Subtract(config, CommandGene.IntegerClass),
-				new Terminal(config, CommandGene.IntegerClass, 0.0, 10.0, true) } };
+	ArrayList<CommandGene> test = new ArrayList<CommandGene>();
+	test.addAll(vars);
+	test.add(new Add(config, CommandGene.IntegerClass));
+	test.add(new Multiply(config, CommandGene.IntegerClass));
+	test.add(new Terminal(config, CommandGene.IntegerClass, 0.0, 10.0, true));
+	//List<T> list = new ArrayList<T>();
+	
+	CommandGene [] test2 = test.toArray(new CommandGene[test.size()]);
+	CommandGene[][]nodeSets ={test2};
+//		CommandGene[][] nodeSets = { 
+//				{
+//					_xVariable, _yVariable,
+//				new Add(config, CommandGene.IntegerClass),
+//				new Multiply(config, CommandGene.IntegerClass), 
+//				new Subtract(config, CommandGene.IntegerClass),
+//				new Terminal(config, CommandGene.IntegerClass, 0.0, 10.0, true) } };
 
 		GPGenotype result = GPGenotype.randomInitialGenotype(config, types, argTypes, nodeSets, 20, true);
 

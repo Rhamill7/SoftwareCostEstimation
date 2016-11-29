@@ -75,7 +75,7 @@ public class Reader {
 		return lists.get(attribute);
 		}
 	
-	public List<List<Double>> getLists(int attribute) {
+	public List<List<Double>> getLists() {
 		return lists;
 		}
 	public int getListSize() {
