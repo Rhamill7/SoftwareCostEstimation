@@ -34,7 +34,6 @@ public class SimpleMathTestFitnessFunction extends GPFitnessFunction {
             // Execute the genetically engineered algorithm
             long value = program.execute_int(0, NO_ARGS);
             
-
             // The closer longResult gets to 0 the better the algorithm.
             longResult += Math.abs(value - _output[i]);
         }

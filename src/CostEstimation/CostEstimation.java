@@ -45,7 +45,7 @@ public class CostEstimation extends GPProblem {
 		Reader r = new Reader();
 		r.read();
 		// r.checkLists();
-		int attributes = r.getListSize()-2;
+		int attributes = r.getListSize()-1;
 		for (int i = 0; i < attributes-1; i++) {
 			List<Double> INPUT = r.getAttributeList(i);
 			inputs.add(INPUT);
@@ -91,6 +91,7 @@ public class CostEstimation extends GPProblem {
 	
 	CommandGene [] test2 = test.toArray(new CommandGene[test.size()]);
 	CommandGene[][]nodeSets ={test2};
+	
 //		CommandGene[][] nodeSets = { 
 //				{
 //					_xVariable, _yVariable,
