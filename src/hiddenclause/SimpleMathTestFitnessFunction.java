@@ -31,6 +31,7 @@ public class SimpleMathTestFitnessFunction extends GPFitnessFunction {
             // Set the input values
             _xVariable.set(_input1[i]);
             _yVariable.set(_input2[i]);
+       //     System.out.println(_xVariable.getValue());
             // Execute the genetically engineered algorithm
             long value = program.execute_int(0, NO_ARGS);
             

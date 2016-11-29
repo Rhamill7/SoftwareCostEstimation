@@ -37,9 +37,9 @@ public class FitnessFunction extends GPFitnessFunction {
 		double result = 0.0f;
 
 		long longResult = 0;
-		System.out.println(vars2.size()); // 8 variables
+		//System.out.println(vars2.size()); // 8 variables
 
-		System.out.println(inputs2.size()); // 7 lists
+		//System.out.println(inputs2.size()); // 7 lists
 		// for (int i = 0; i < _input1.length; i++) {
 		
 		for (int i = 0; i < vars2.size(); i++) {
@@ -53,6 +53,7 @@ public class FitnessFunction extends GPFitnessFunction {
 				// _yVariable.set(_input2[i]);
 				vars2.get(j).set(inputs2.get(j).get(i));
 			}
+		//System.out.println("HERE" +vars2.get(i).getValue());
 			// Execute the genetically engineered algorithm
 			// long value = program.execute_int(0, NO_ARGS);
 		//	double value = program.execute_double(0, NO_ARGS);
