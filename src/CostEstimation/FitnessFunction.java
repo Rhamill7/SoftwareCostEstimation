@@ -6,13 +6,9 @@ import org.jgap.gp.GPFitnessFunction;
 import org.jgap.gp.IGPProgram;
 import org.jgap.gp.terminal.Variable;
 
+@SuppressWarnings("serial")
 public class FitnessFunction extends GPFitnessFunction {
 
-	private Integer[] _input1;
-	private Integer[] _input2;
-	private int[] _output;
-	private Variable _xVariable;
-	private Variable _yVariable;
 	List<Variable> vars2;
 	List<List<Double>> inputs2;
 	List<Double> output2;
@@ -28,40 +24,29 @@ public class FitnessFunction extends GPFitnessFunction {
 		inputs2 = inputs;
 		output2 = output;
 		vars2 = vars;
+	//	vars2.remove(vars2.size() - 1);
+		// Object[] output3 = output2.toArray();
 	}
 
 	@Override
 	protected double evaluate(final IGPProgram program) {
 
-		// setUp();
 		double result = 0.0f;
 
 		long longResult = 0;
-		//System.out.println(vars2.size()); // 8 variables
-
-		//System.out.println(inputs2.size()); // 7 lists
-		// for (int i = 0; i < _input1.length; i++) {
-		
-		for (int i = 0; i < vars2.size(); i++) {
-		//	int size = inputs2.get(i).size();
-			//List<Double> bob = inputs2.get(i);
-			//System.out.println(bob.size());
-			for (int j =0; j<inputs2.size(); j++){
+		for (int i = 0; i < output2.size(); i++) {
+			for (int j = 0; j < inputs2.size(); j++) {
 				// Set the input values
-				// System.out.println("YER MAWWWW");
 				// _xVariable.set(_input1[i]);
 				// _yVariable.set(_input2[i]);
 				vars2.get(j).set(inputs2.get(j).get(i));
 			}
-		//System.out.println("HERE" +vars2.get(i).getValue());
 			// Execute the genetically engineered algorithm
 			// long value = program.execute_int(0, NO_ARGS);
-		//	double value = program.execute_double(0, NO_ARGS);
-		//	System.out.println(value);
+			double value = program.execute_double(0, NO_ARGS);
 			// The closer longResult gets to 0 the better the algorithm.
-	//		longResult += Math.abs(value - output2.get(i));
+			longResult += Math.abs(value - output2.get(i));
 		}
-		
 
 		result = longResult;
 
