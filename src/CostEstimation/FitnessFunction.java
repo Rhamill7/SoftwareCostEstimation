@@ -31,7 +31,7 @@ public class FitnessFunction extends GPFitnessFunction {
 	@Override
 	protected double evaluate(final IGPProgram program) {
 
-		double result = 0.0f;
+		double result = 0.0;
 
 		long longResult = 0;
 		for (int i = 0; i < output2.size(); i++) {
@@ -43,8 +43,8 @@ public class FitnessFunction extends GPFitnessFunction {
 			}
 			// Execute the genetically engineered algorithm
 			// long value = program.execute_int(0, NO_ARGS);
-			double value = program.execute_double(0, NO_ARGS);
-			System.out.println(value);
+			long value = (long)program.execute_double(0, NO_ARGS);
+			//System.out.println(value);
 			// The closer longResult gets to 0 the better the algorithm.
 			longResult += Math.abs(value - output2.get(i));
 		}

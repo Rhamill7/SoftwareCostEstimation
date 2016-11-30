@@ -1,6 +1,6 @@
 package CostEstimation;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 
 import org.jgap.InvalidConfigurationException;
@@ -10,6 +10,7 @@ import org.jgap.gp.function.Add;
 import org.jgap.gp.function.Divide;
 import org.jgap.gp.function.Exp;
 import org.jgap.gp.function.Log;
+import org.jgap.gp.function.Pow;
 import org.jgap.gp.function.Multiply;
 import org.jgap.gp.function.Subtract;
 import org.jgap.gp.impl.DeltaGPFitnessEvaluator;
