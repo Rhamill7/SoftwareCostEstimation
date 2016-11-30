@@ -18,7 +18,7 @@ public class Reader {
 
 	public void read() {
 		try {
-			File infile = new File("miyazaki94.arff");
+			File infile = new File("miyazaki94.arff");//("china.arff.txt");//("kemerer.arff.txt");
 			if (!infile.canRead()) {
 				infile.setReadable(true);
 			}
@@ -89,10 +89,10 @@ public class Reader {
 	}
 
 	public ArrayList<String> getAttrNames() {
-		System.out.println(attrNames);
+//		System.out.println(attrNames);
 		attrNames.remove(0);
 		attrNames.remove(attrNames.size() - 1);
-		System.out.println(attrNames);
+	//	System.out.println(attrNames);
 		return attrNames;
 	}
 

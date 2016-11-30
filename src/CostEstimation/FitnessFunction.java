@@ -44,6 +44,7 @@ public class FitnessFunction extends GPFitnessFunction {
 			// Execute the genetically engineered algorithm
 			// long value = program.execute_int(0, NO_ARGS);
 			double value = program.execute_double(0, NO_ARGS);
+			System.out.println(value);
 			// The closer longResult gets to 0 the better the algorithm.
 			longResult += Math.abs(value - output2.get(i));
 		}
