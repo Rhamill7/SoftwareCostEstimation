@@ -1,6 +1,6 @@
 package CostEstimation;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;  
 import java.util.List;
 
 import org.jgap.InvalidConfigurationException;
@@ -11,6 +11,8 @@ import org.jgap.gp.function.Divide;
 import org.jgap.gp.function.Exp;
 import org.jgap.gp.function.Log;
 import org.jgap.gp.function.Pow;
+import org.jgap.gp.function.Abs;
+
 import org.jgap.gp.function.Multiply;
 import org.jgap.gp.function.Subtract;
 import org.jgap.gp.impl.DeltaGPFitnessEvaluator;
@@ -48,7 +50,7 @@ public class CostEstimation extends GPProblem {
 		GPConfiguration config = getGPConfiguration();
 //System.out.println(attributes);
 		for (int j = 0; j < attributes-1; j++) {
-			Variable var = Variable.create(config, names.get(j), CommandGene.IntegerClass);
+			Variable var = Variable.create(config, names.get(j), CommandGene.DoubleClass);
 			vars.add(var);
 		}
 		//System.out.println(vars.size());
@@ -58,7 +60,7 @@ public class CostEstimation extends GPProblem {
 		config.setGPFitnessEvaluator(new DeltaGPFitnessEvaluator());
 		config.setMaxInitDepth(4);
 		config.setPopulationSize(1000);
-		config.setMaxCrossoverDepth(8);
+		config.setMaxCrossoverDepth(10);
 		config.setFitnessFunction(new FitnessFunction(inputs, outputs, vars));
 		config.setStrictProgramCreation(true);
 	}
@@ -69,7 +71,7 @@ public class CostEstimation extends GPProblem {
 
 		// The return type of the GP program.
 		@SuppressWarnings("rawtypes")
-		Class[] types = { CommandGene.IntegerClass };
+		Class[] types = { CommandGene.DoubleClass };
 
 		// Arguments of result-producing chromosome: none
 		@SuppressWarnings("rawtypes")
@@ -79,15 +81,16 @@ public class CostEstimation extends GPProblem {
 		// use.
 		ArrayList<CommandGene> test = new ArrayList<CommandGene>();
 		test.addAll(vars);
-		test.add(new Add(config, CommandGene.IntegerClass));
-		test.add(new Multiply(config, CommandGene.IntegerClass));
-		test.add(new Subtract(config, CommandGene.IntegerClass));
-		test.add(new Divide(config, CommandGene.IntegerClass));
-		//test.add(new Squared(config, CommandGene.IntegerClass));
-		test.add(new Sqrt(config, CommandGene.IntegerClass));
-		test.add(new Exp(config, CommandGene.IntegerClass));
-		test.add(new Log(config, CommandGene.IntegerClass));
-		test.add(new Terminal(config, CommandGene.IntegerClass, 0.0, 10.0, false));
+		test.add(new Add(config, CommandGene.DoubleClass));
+		test.add(new Multiply(config, CommandGene.DoubleClass));
+		test.add(new Subtract(config, CommandGene.DoubleClass));
+		test.add(new Divide(config, CommandGene.DoubleClass));
+		test.add(new Pow(config, CommandGene.IntegerClass));
+		test.add(new Sqrt(config, CommandGene.DoubleClass));
+		test.add(new Exp(config, CommandGene.DoubleClass));
+		test.add(new Log(config, CommandGene.DoubleClass));
+		test.add(new Abs(config, CommandGene.DoubleClass));
+		test.add(new Terminal(config, CommandGene.DoubleClass, 0.0, 10.0, false));
 		// List<T> list = new ArrayList<T>();
 
 		CommandGene[] test2 = test.toArray(new CommandGene[test.size()]);

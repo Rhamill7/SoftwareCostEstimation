@@ -31,7 +31,7 @@ public class FitnessFunction extends GPFitnessFunction {
 	@Override
 	protected double evaluate(final IGPProgram program) {
 
-		double result = 0.0;
+		double result = 0.0f;
 
 		long longResult = 0;
 		for (int i = 0; i < output2.size(); i++) {
@@ -46,7 +46,11 @@ public class FitnessFunction extends GPFitnessFunction {
 			long value = (long)program.execute_double(0, NO_ARGS);
 			//System.out.println(value);
 			// The closer longResult gets to 0 the better the algorithm.
+	//	Mean Absolute error
 			longResult += Math.abs(value - output2.get(i));
+		//	System.out.println(longResult);
+			//mean magnitude of relative error
+		//	longResult += (Math.abs( value - output2.get(i))/output2.get(i));
 		}
 
 		result = longResult;

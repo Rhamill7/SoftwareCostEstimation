@@ -18,7 +18,7 @@ public class Reader {
 
 	public void read() {
 		try {
-			File infile = new File("china.arff.txt");//("miyazaki94.arff");//("kemerer.arff.txt");
+			File infile = new File("china.arff.txt");//("miyazaki94.arff")//("kemerer.arff.txt");("china.arff.txt");//
 			if (!infile.canRead()) {
 				infile.setReadable(true);
 			}
