@@ -1,6 +1,6 @@
 package CostEstimation;
 
-import java.util.ArrayList;  
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jgap.InvalidConfigurationException;
@@ -12,6 +12,8 @@ import org.jgap.gp.function.Exp;
 import org.jgap.gp.function.Log;
 import org.jgap.gp.function.Pow;
 import org.jgap.gp.function.Abs;
+import org.jgap.gp.function.Cosine;
+import org.jgap.gp.function.Sine;
 
 import org.jgap.gp.function.Multiply;
 import org.jgap.gp.function.Subtract;
@@ -39,7 +41,6 @@ public class CostEstimation extends GPProblem {
 		Reader r = new Reader();
 		r.read();
 		ArrayList<String> names = r.getAttrNames();
-		// r.checkLists();
 		int attributes = r.getListSize() - 1;
 		for (int i = 0; i < attributes - 1; i++) {
 			List<Double> INPUT = r.getAttributeList(i);
@@ -48,19 +49,15 @@ public class CostEstimation extends GPProblem {
 		outputs = r.getAttributeList(r.getListSize() - 2);
 
 		GPConfiguration config = getGPConfiguration();
-//System.out.println(attributes);
-		for (int j = 0; j < attributes-1; j++) {
+		for (int j = 0; j < attributes - 1; j++) {
 			Variable var = Variable.create(config, names.get(j), CommandGene.DoubleClass);
 			vars.add(var);
 		}
-		//System.out.println(vars.size());
-		// _xVariable = Variable.create(config, "X", CommandGene.IntegerClass);
-		// _yVariable = Variable.create(config, "Y", CommandGene.IntegerClass);
 
 		config.setGPFitnessEvaluator(new DeltaGPFitnessEvaluator());
 		config.setMaxInitDepth(4);
 		config.setPopulationSize(1000);
-		config.setMaxCrossoverDepth(10);
+		config.setMaxCrossoverDepth(8);
 		config.setFitnessFunction(new FitnessFunction(inputs, outputs, vars));
 		config.setStrictProgramCreation(true);
 	}
@@ -90,34 +87,28 @@ public class CostEstimation extends GPProblem {
 		test.add(new Exp(config, CommandGene.DoubleClass));
 		test.add(new Log(config, CommandGene.DoubleClass));
 		test.add(new Abs(config, CommandGene.DoubleClass));
+		test.add(new Sine(config, CommandGene.DoubleClass));
+		test.add(new Cosine(config, CommandGene.DoubleClass));
 		test.add(new Terminal(config, CommandGene.DoubleClass, 0.0, 10.0, false));
-		// List<T> list = new ArrayList<T>();
 
 		CommandGene[] test2 = test.toArray(new CommandGene[test.size()]);
 		CommandGene[][] nodeSets = { test2 };
-
-		// CommandGene[][] nodeSets = {
-		// {
-		// _xVariable, _yVariable,
-		// new Add(config, CommandGene.IntegerClass),
-		// new Multiply(config, CommandGene.IntegerClass),
-		// new Subtract(config, CommandGene.IntegerClass),
-		// new Terminal(config, CommandGene.IntegerClass, 0.0, 10.0, true) } };
-
 		GPGenotype result = GPGenotype.randomInitialGenotype(config, types, argTypes, nodeSets, 20, true);
 
 		return result;
 	}
 
 	public static void main(String[] args) throws Exception {
+		long start = System.currentTimeMillis();
 		GPProblem problem = new CostEstimation();
 
 		GPGenotype gp = problem.create();
 		gp.setVerboseOutput(true);
-		gp.evolve(1000);
-
-		// System.out.println("Formulaiscover: x^2 + 2y + 3x + 5");
+		gp.evolve(50);
 		gp.outputSolution(gp.getAllTimeBest());
+		long finish = System.currentTimeMillis();
+		
+		System.out.println("Time elapsed in ms: " + (finish - start));
 	}
 
 }
