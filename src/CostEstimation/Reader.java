@@ -11,6 +11,7 @@ public class Reader {
 
 	List<List<Double>> lists = new ArrayList<List<Double>>();
 	ArrayList<String> attrNames = new ArrayList<String>();
+	File infile;
 
 	public Reader() {
 
@@ -18,7 +19,7 @@ public class Reader {
 
 	public void read() {
 		try {
-			File infile = new File("kemerer.arff.txt");//("china.arff.txt");  ("miyazaki94.arff");
+			 infile = new File("china.arff.txt");//("china.arff.txt"); //("miyazaki94.arff");// //("kemerer.arff.txt");//
 			if (!infile.canRead()) {
 				infile.setReadable(true);
 			}
@@ -94,4 +95,9 @@ public class Reader {
 		return attrNames;
 	}
 
+	public String getFileName(){
+		System.out.println(infile.getName());
+		return infile.getName();
+		
+	}
 }

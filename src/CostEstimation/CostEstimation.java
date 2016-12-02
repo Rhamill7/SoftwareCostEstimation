@@ -34,6 +34,10 @@ public class CostEstimation extends GPProblem {
 	List<List<Double>> inputs = new ArrayList<List<Double>>();
 	List<Double> outputs = new ArrayList<Double>();
 	List<Variable> vars = new ArrayList<Variable>();
+	boolean[] kemerer = {false, true, false, false, true, false};
+	boolean[] miyazaki94 = {true, false, false, false, true, false, true};
+	boolean[] china = {true, true, true, true, true, true, true, false, false, true, true, true, false, true, false, false, true};
+
 
 	public CostEstimation() throws InvalidConfigurationException {
 		super(new GPConfiguration());
@@ -53,12 +57,40 @@ public class CostEstimation extends GPProblem {
 			Variable var = Variable.create(config, names.get(j), CommandGene.DoubleClass);
 			vars.add(var);
 		}
-
+		
+		//removing unneeded here
+//		String name = r.getFileName();
+//		boolean[] use = {};
+//		if (name.equals("kemerer.arff.txt")) {
+//			use = kemerer;
+//		} else if (name.equals("miyazaki94.arff")){
+//			use = miyazaki94;
+//		}
+//		else if (name.equals("china.arff.txt")){
+//			use = china;
+//		}
+//		
+//		List<List<Double>> inputs2 = new ArrayList<List<Double>>();
+//		List<Variable> vars2 = new ArrayList<Variable>();
+//		for(int i = 0; i < inputs.size(); i++){
+//			if (use[i] == true ){
+//				
+//				inputs2.add(inputs.get(i));
+//				
+//				vars2.add(vars.get(i));
+//				
+//			}
+//			
+//		}
+//		vars.clear();
+		/////
+		
 		config.setGPFitnessEvaluator(new DeltaGPFitnessEvaluator());
 		config.setMaxInitDepth(4);
 		config.setPopulationSize(1000);
 		config.setMaxCrossoverDepth(8);
 		config.setFitnessFunction(new FitnessFunction(inputs, outputs, vars));
+		//config.setFitnessFunction(new FitnessFunction(inputs2, outputs, vars2));
 		config.setStrictProgramCreation(true);
 	}
 
@@ -104,7 +136,7 @@ public class CostEstimation extends GPProblem {
 
 		GPGenotype gp = problem.create();
 		gp.setVerboseOutput(true);
-		gp.evolve(50);
+		gp.evolve(1000);
 		gp.outputSolution(gp.getAllTimeBest());
 		long finish = System.currentTimeMillis();
 		
